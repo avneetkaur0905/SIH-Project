@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post 1 - DRDO HR Panel Selection</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/mai/3/3e/DRDO-logo.png" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(49deg, rgba(0, 86, 179, 0.8), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6));
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite; 
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #0056b3;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            position: relative; /* Added to manage z-index */
+        }
+
+        .expert {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #e6f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            position: relative; /* For positioning inside the section */
+        }
+
+        .expert:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .expert-info {
+            max-width: 55%;
+        }
+
+        .expert h3 {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .expert p {
+            margin-bottom: 8px;
+        }
+
+        .match-info {
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chart-container p {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .chart-container .chart-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .more-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            position: relative; /* Ensures it is positioned properly */
+        }
+
+        .more-button:hover {
+            background-color: #004494;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            top: -150%; /* Position above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensures it is above other elements */
+            width: 300px; /* Adjusted width for better visibility */
+            padding: 10px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .tooltip ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tooltip ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tooltip ul li:last-child {
+            border-bottom: none;
+        }
+
+        .tooltip ul li:hover {
+            background-color: #f0f4f8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .expert {
+                flex: 1 1 calc(100% - 20px);
+            }
+
+            .tooltip {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Post - Research Associate in Artificial Intelligence</h1>
+            <p>Expertise Area: Artificial Intelligence and Machine Learning</p>
+        </header>
+
+        <div class="section" id="expertSection">
+            <!-- Experts will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for each expert's chart and match percentage
+        const experts = [
+            { id: 'expert1Chart', name: 'Dr. Anjali Mehta', skills: 'AI, ML, Data Science', match: 80, fileName: 'Anjali_Mehta.html' },
+            { id: 'expert2Chart', name: 'Prof. Raghav Sharma', skills: 'AI, Robotics, Automation', match: 70, fileName: 'Raghav_Sharma.html' },
+            { id: 'expert3Chart', name: 'Dr. Priya Nair', skills: 'ML, Deep Learning, Neural Networks', match: 85, fileName: 'Priya_Nair.html' },
+            { id: 'expert4Chart', name: 'Dr. Sanjay Verma', skills: 'Data Science, AI, Natural Language Processing', match: 78, fileName: 'Sanjay_Verma.html' },
+            { id: 'expert5Chart', name: 'Dr. Neha Kulkarni', skills: 'AI, ML, Computer Vision', match: 84, fileName: 'Neha_Kulkarni.html' }
+        ];
+
+        // Additional experts for the tooltip
+        const additionalExperts = [
+            { name: 'Dr. Amit Kumar', match: 76 },
+            { name: 'Dr. Shreya Agarwal', match: 74 },
+            { name: 'Dr. Mohan Rao', match: 72 },
+            { name: 'Dr. Swati Patel', match: 70 },
+            { name: 'Dr. Varun Desai', match: 69 },
+            { name: 'Dr. Meera Singh', match: 68 },
+            { name: 'Dr. Ritesh Singh', match: 67 },
+            { name: 'Dr. Neelam Saini', match: 66 },
+            { name: 'Dr. Ankit Jain', match: 65 },
+            { name: 'Dr. Pratima Joshi', match: 64 }
+        ];
+
+        // Sort experts by match percentage in descending order
+        experts.sort((a, b) => b.match - a.match);
+
+        // Function to create pie chart
+        function createPieChart(ctx, match) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [match, 100 - match],
+                        backgroundColor: ['#0056b3', '#e6f7ff']
+                    }],
+                    labels: ['Total Match', 'Remaining']
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create and insert expert elements dynamically
+        const expertSection = document.getElementById('expertSection');
+
+        experts.forEach(expert => {
+            const expertElement = document.createElement('a');
+            expertElement.href = expert.fileName;
+            expertElement.className = 'expert';
+
+            expertElement.innerHTML = `
+                <div class="expert-info">
+                    <h3>${expert.name}</h3>
+                    <p><strong>Skills:</strong> ${expert.skills}</p>
+                    <p class="match-info"><strong>Overall Match Percentage:</strong> ${expert.match}%</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="${expert.id}"></canvas>
+                    <div class="chart-label">${expert.match}%</div>
+                    <p>Total Match</p>
+                </div>
+            `;
+
+            expertSection.appendChild(expertElement);
+
+            // Initialize chart
+            const ctx = document.getElementById(expert.id).getContext('2d');
+            createPieChart(ctx, expert.match);
+        });
+
+        // Create the section for the "More" button and tooltip
+        const moreSection = document.createElement('div');
+        moreSection.className = 'expert';
+        moreSection.style.flex = '1 1 calc(33.333% - 20px)'; // Ensure it matches other sections
+        moreSection.innerHTML = `
+            <button class="more-button">More</button>
+            <div class="tooltip">
+                <ul>
+                    ${additionalExperts.map(expert => `<li>${expert.name} - ${expert.match}%</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        expertSection.appendChild(moreSection);
+
+        // Event listener for more button
+        const moreButton = document.querySelector('.more-button');
+        const tooltip = document.querySelector('.tooltip');
+
+        moreButton.addEventListener('click', () => {
+            tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Hide tooltip when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!moreSection.contains(event.target) && !moreButton.contains(event.target)) {
+                tooltip.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

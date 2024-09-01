@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post 2 - DRDO HR Panel Selection</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/mai/3/3e/DRDO-logo.png" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(49deg, rgba(0, 86, 179, 0.8), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6));
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite; 
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #0056b3;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            position: relative; /* Added to manage z-index */
+        }
+
+        .expert {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #e6f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            position: relative; /* For positioning inside the section */
+            overflow: hidden;
+        }
+
+        .expert:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .expert-info {
+            max-width: 55%;
+        }
+
+        .expert h3 {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .expert p {
+            margin-bottom: 8px;
+        }
+
+        .match-info {
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            text-align: center;
+        }
+
+        .chart-container p {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .chart-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0056b3;
+        }
+
+        .more-button {
+            width: 100px;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Ensure it appears above other content */
+        }
+
+        .more-button:hover {
+            background-color: #004494;
+        }
+
+        .tooltip {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 110%; /* Adjusted to appear right of the expert box */
+            transform: translateY(-50%);
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensures it is above other elements */
+            width: 200px; /* Adjusted width for better visibility */
+            padding: 10px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .tooltip ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tooltip ul li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tooltip ul li:last-child {
+            border-bottom: none;
+        }
+
+        .tooltip ul li:hover {
+            background-color: #f0f4f8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .expert {
+                flex: 1 1 calc(100% - 20px);
+            }
+
+            .more-button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .tooltip {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Post - Cybersecurity</h1>
+            <p>Expertise Area: Cybersecurity and Network Defense</p>
+        </header>
+
+        <div class="section" id="expertSection">
+            <!-- More Button and Experts will be dynamically inserted here -->
+        </div>
+
+        <!-- Additional section for the "More" button -->
+        <div class="section" id="moreSection">
+            <button class="more-button">More</button>
+        </div>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for each expert's chart
+        const experts = [
+            { id: 'expert1Chart', percentageId: 'expert1Percentage', name: 'Rajesh Nair', skills: 'Network Security, Intrusion Detection Systems, Cryptography', match: 82, overall: 78 },
+            { id: 'expert2Chart', percentageId: 'expert2Percentage', name: 'Priya Reddy', skills: 'Ethical Hacking, Malware Analysis, Cyber Forensics', match: 75, overall: 72 },
+            { id: 'expert3Chart', percentageId: 'expert3Percentage', name: 'Amit Sinha', skills: 'Secure Software Development, Blockchain Security, Data Protection', match: 88, overall: 84 },
+            { id: 'expert4Chart', percentageId: 'expert4Percentage', name: 'Neha Gupta', skills: 'Threat Intelligence, Risk Management, Incident Response', match: 80, overall: 77 },
+            { id: 'expert5Chart', percentageId: 'expert5Percentage', name: 'Sanjay Deshmukh', skills: 'Cloud Security, IoT Security, Penetration Testing', match: 85, overall: 81 }
+        ];
+
+        // Additional experts for the tooltip
+        const additionalExperts = [
+            { name: 'Expert 6', match: 70 },
+            { name: 'Expert 7', match: 68 },
+            { name: 'Expert 8', match: 66 },
+            { name: 'Expert 9', match: 64 },
+            { name: 'Expert 10', match: 62 },
+            { name: 'Expert 11', match: 60 },
+            { name: 'Expert 12', match: 58 },
+            { name: 'Expert 13', match: 56 },
+            { name: 'Expert 14', match: 54 },
+            { name: 'Expert 15', match: 52 }
+        ];
+
+        // Function to create pie chart
+        function createPieChart(ctx, percentageId, overall) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [overall, 100 - overall],
+                        backgroundColor: ['#0056b3', '#e6f7ff']
+                    }],
+                    labels: ['Total Match', 'Remaining']
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            document.getElementById(percentageId).textContent = `${overall}%`;
+        }
+
+        // Function to format name for filename
+        function formatNameForFilename(name) {
+            return name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') + '.html';
+        }
+
+        // Create and insert expert elements dynamically
+        const expertSection = document.getElementById('expertSection');
+        const moreSection = document.getElementById('moreSection');
+
+        experts.forEach((expert, index) => {
+            const expertElement = document.createElement('a');
+            expertElement.href = formatNameForFilename(expert.name); // Link to the expert's page
+            expertElement.className = 'expert';
+            expertElement.dataset.index = index;
+
+            expertElement.innerHTML = `
+                <div class="expert-info">
+                    <h3>${expert.name}</h3>
+                    <p><strong>Skills:</strong> ${expert.skills}</p>
+                    <p class="match-info"><strong>Overall Match Percentage:</strong> ${expert.overall}%</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="${expert.id}"></canvas>
+                    <div class="chart-percentage" id="${expert.percentageId}"></div>
+                    <p>Total Match</p>
+                </div>
+                <div class="tooltip" id="tooltip-${index}">
+                    <ul>
+                        <li>${additionalExperts[index] ? `${additionalExperts[index].name} - ${additionalExperts[index].match}%` : ''}</li>
+                    </ul>
+                </div>
+            `;
+
+            expertSection.appendChild(expertElement);
+
+            // Initialize chart
+            const ctx = document.getElementById(expert.id).getContext('2d');
+            createPieChart(ctx, expert.percentageId, expert.overall);
+        });
+
+        // Event listener for more button
+        const moreButton = document.querySelector('.more-button');
+
+        moreButton.addEventListener('click', () => {
+            // Show/Hide the additional experts
+            const tooltips = document.querySelectorAll('.tooltip');
+            tooltips.forEach(tooltip => {
+                tooltip.style.display = tooltip.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        // Hover effect for displaying additional experts' names and match percentages
+        document.querySelectorAll('.expert').forEach((expertElement) => {
+            const tooltip = document.getElementById(`tooltip-${expertElement.dataset.index}`);
+            expertElement.addEventListener('mouseover', () => {
+                if (tooltip) {
+                    tooltip.style.display = 'block';
+                }
+            });
+            expertElement.addEventListener('mouseout', () => {
+                if (tooltip) {
+                    tooltip.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
