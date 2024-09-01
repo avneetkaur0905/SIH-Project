@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relevancy Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .relevancy-scores { background: #dff0d8; padding: 10px; border-radius: 5px; }
+        .highlight { font-weight: bold; color: #d9534f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Relevancy Results</h1>
+        <h2>Candidate Resume Sections</h2>
+        <pre>{{ candidate_sections | default({}) | tojson(indent=2) }}</pre>
+        
+        <h2>Expert Resume Sections</h2>
+        <pre>{{ expert_sections | default({}) | tojson(indent=2) }}</pre>
+        
+        <h2>Relevancy Scores</h2>
+        <div class="relevancy-scores">
+            <ul>
+                {% for section, score in relevancy_scores.items() %}
+                    <li><span class="highlight">{{ section }}:</span> {{ score | round(2) }}%</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

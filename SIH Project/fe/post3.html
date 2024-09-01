@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post 3 - DRDO HR Panel Selection</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/mai/3/3e/DRDO-logo.png" type="image/png">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            background: linear-gradient(49deg, rgba(0, 86, 179, 0.8), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6), rgba(0, 68, 148, 0.7), rgba(0, 86, 179, 0.6));
+            background-size: 300% 300%;
+            animation: color 12s ease-in-out infinite; 
+        }
+
+        @keyframes color {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #0056b3;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .expert {
+            flex: 1 1 calc(33.333% - 20px);
+            background-color: #e6f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .expert:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .expert-info {
+            max-width: 55%;
+        }
+
+        .expert h3 {
+            font-size: 1.5em;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .expert p {
+            margin-bottom: 8px;
+        }
+
+        .match-info {
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .chart-container {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .chart-container p {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .chart-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0056b3;
+            pointer-events: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .expert {
+                flex: 1 1 calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Post - UAV Engineer</h1>
+            <p>Expertise Area: Unmanned Aerial Vehicles (UAVs) and Autonomous Systems</p>
+        </header>
+
+        <div class="section" id="expertSection">
+            <!-- Experts will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for each expert's chart
+        const experts = [
+            { id: 'expert1Chart', textId: 'expert1Text', name: 'Dr. Anil Sharma', skills: 'UAV Design, Flight Control Systems, Aerodynamics', match: 83, overall: 79 },
+            { id: 'expert2Chart', textId: 'expert2Text', name: 'Dr. Priya Joshi', skills: 'Autonomous Navigation, Sensor Integration, AI for UAVs', match: 78, overall: 74 },
+            { id: 'expert3Chart', textId: 'expert3Text', name: 'Dr. Rajesh Mehta', skills: 'Swarm Robotics, Cooperative Control, UAV Communication', match: 86, overall: 81 },
+            { id: 'expert4Chart', textId: 'expert4Text', name: 'Dr. Suman Rao', skills: 'UAV Propulsion, Battery Technology, Energy Efficiency', match: 80, overall: 76 },
+            { id: 'expert5Chart', textId: 'expert5Text', name: 'Dr. Nidhi Patel', skills: 'UAV Payloads, Mission Planning, Real-time Data Processing', match: 89, overall: 85 }
+        ];
+
+        // Function to create pie chart
+        function createPieChart(ctx, textId, overall) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [overall, 100 - overall],
+                        backgroundColor: ['#0056b3', '#e6f7ff']
+                    }],
+                    labels: ['Total Match', 'Remaining']
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Add the text in the middle of the chart
+            document.getElementById(textId).innerText = `${overall}%`;
+        }
+
+        // Function to format name for filename
+        function formatNameForFilename(name) {
+            // Remove common prefixes (e.g., "Dr.", "Mr.", "Ms.")
+            const nameWithoutPrefix = name.replace(/^(Dr\.|Mr\.|Ms\.)\s*/, '').trim();
+            // Replace spaces with underscores and remove non-alphanumeric characters except underscores
+            return nameWithoutPrefix.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '') + '.html';
+        }
+
+        // Create and insert expert elements dynamically
+        const expertSection = document.getElementById('expertSection');
+
+        experts.forEach((expert, index) => {
+            const expertElement = document.createElement('a');
+            expertElement.href = formatNameForFilename(expert.name); // Link to the expert's page
+            expertElement.className = 'expert';
+
+            expertElement.innerHTML = `
+                <div class="expert-info">
+                    <h3>${expert.name}</h3>
+                    <p><strong>Skills:</strong> ${expert.skills}</p>
+                    <p class="match-info"><strong>Overall Match Percentage:</strong> ${expert.overall}%</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="${expert.id}"></canvas>
+                    <div class="chart-text" id="${expert.textId}"></div>
+                    <p>Total Match</p>
+                </div>
+            `;
+
+            expertSection.appendChild(expertElement);
+
+            // Initialize chart
+            const ctx = document.getElementById(expert.id).getContext('2d');
+            createPieChart(ctx, expert.textId, expert.overall);
+        });
+    </script>
+</body>
+</html>

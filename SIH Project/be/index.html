@@ -1,0 +1,48 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Comparison</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .results { margin-top: 20px; }
+        textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+        button { padding: 10px 20px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Comparison</h1>
+
+        <!-- Form for inputting resumes -->
+        <form action="/relevancy" method="post">
+            <h2>Candidate Resume</h2>
+            <textarea name="resume1" placeholder="Enter candidate resume here..."></textarea>
+
+            <h2>Expert Resume</h2>
+            <textarea name="resume2" placeholder="Enter expert resume here..."></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display results after form submission -->
+        {% if candidate_sections is defined and expert_sections is defined and relevancy_scores is defined %}
+        <div class="results">
+            <h2>Candidate Resume Sections</h2>
+            <pre>{{ candidate_sections | default({}) | tojson(indent=2) }}</pre>
+            
+            <h2>Expert Resume Sections</h2>
+            <pre>{{ expert_sections | default({}) | tojson(indent=2) }}</pre>
+            
+            <h2>Relevancy Scores</h2>
+            <pre>{{ relevancy_scores | default({}) | tojson(indent=2) }}</pre>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
